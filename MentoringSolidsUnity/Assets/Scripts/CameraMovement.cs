@@ -5,25 +5,91 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-	[SerializeField] private Camera cam = null;
+	public Camera cam;
+	public Transform targetShape;
 
-	private Vector3 previousPosition;
+	private Vector3 camPreviousPosition;
+	private Vector3 dragOrigin;
 
-    // Update is called once per frame
+	private Vector3 camOffset;
+
+	private Vector3 camStartPosition;
+	private Quaternion camStartRotation;
+	private Vector3 camStartOffset;
+
+
+	private float sensibilidadeZoom = 5f;
+
+	private float LimiteZoomPositivo = 0;
+	private float LimiteZoomNegativo = -18;
+
+
+	void resetTransformations() {
+		cam.transform.position = camStartPosition;
+		cam.transform.rotation = camStartRotation;
+		camOffset = camStartOffset;
+	}
+
+	void Start() {
+		cam.transform.LookAt(targetShape);
+		camOffset = new Vector3(0, 0, -Vector3.Distance(cam.transform.position, targetShape.position));
+
+		camStartPosition = cam.transform.position;
+		camStartRotation = cam.transform.rotation;
+		camStartOffset = camOffset;
+	}
+
     void Update()
     {
+
+		float zoom = Input.GetAxisRaw("Mouse ScrollWheel");
+		if(zoom != 0) {
+			camOffset.z += zoom * sensibilidadeZoom;
+
+			if(camOffset.z > LimiteZoomPositivo) {
+				camOffset.z = LimiteZoomPositivo;
+				zoom = 0;
+			}
+			if(camOffset.z < LimiteZoomNegativo) {
+				camOffset.z = LimiteZoomNegativo;
+				zoom = 0;
+			}
+			
+			cam.transform.Translate(0, 0, zoom * sensibilidadeZoom);
+		}
+
+        /*if(Input.GetMouseButtonDown(1)) { // Botão direito
+			dragOrigin = cam.ScreenToViewportPoint(Input.mousePosition);
+			Debug.Log(dragOrigin);
+		}
+		
+		if(Input.GetMouseButton(1)) { // Botão direito
+			Vector3 pos = cam.ScreenToViewportPoint(Input.mousePosition) - dragOrigin;
+			Vector3 move = new Vector3(pos.x, pos.y, 0);
+			
+
+		}*/
+
+
         if(Input.GetMouseButtonDown(0)) { // Botão esquerdo
-			previousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
+			camPreviousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
 		}
 
 		if(Input.GetMouseButton(0)) { // Botão esquerdo
-			Vector3 direction = previousPosition - cam.ScreenToViewportPoint(Input.mousePosition);
+			Vector3 direction = camPreviousPosition - cam.ScreenToViewportPoint(Input.mousePosition);
 
-			cam.transform.position = new Vector3();
-			cam.transform.Rotate(new Vector3(1,0,0), direction.y * 180);
-			cam.transform.Rotate(new Vector3(0,1,0), -direction.x * 180);
+			cam.transform.position = targetShape.position;
+			cam.transform.Rotate(Vector3.right, direction.y * 180);
+			cam.transform.Rotate(Vector3.up, -direction.x * 180, Space.World);
+			cam.transform.Translate(camOffset);
 
-			previousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
+			camPreviousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
 		}
+
+		if(Input.GetKey(KeyCode.Space)) {
+			resetTransformations();
+		}
+
+		
     }
 }
