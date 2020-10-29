@@ -10,6 +10,8 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 	public float connectionRadius = 0.1f;
 	public string fileName = "";
+	public int arestasPrisma = 0;
+	public float alturaPrisma = 1f;
 
 	// Start is called before the first frame update
 	void Start() {
@@ -20,7 +22,12 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		}
 
 		string jsonStr = File.ReadAllText(jsonDir);
-		CustomShape shape = JsonUtility.FromJson<CustomShape>(jsonStr);
+		CustomShape	shape;
+		if(arestasPrisma == 0) {
+			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
+		} else {
+			shape = gerarPrisma();
+		}
 
 		// Criando lista com os nomes de cada vértice
 		List<string> labels = new List<string>();
@@ -102,4 +109,47 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	// void Update() {
 		
 	// }
+
+	CustomShape gerarPrisma() {
+		CustomShape prisma = new CustomShape("Prisma de " + arestasPrisma + " lados");
+
+		float cx = 0;
+		float cz = 0;
+		float r = 1;
+
+		List<Vector3> vts = new List<Vector3>();
+		
+		for(int i = 0; i < arestasPrisma; i++) {
+			float theta = 2.0f * Mathf.PI * (((float) i) / (float) arestasPrisma);
+
+			float x = r * Mathf.Cos(theta);
+			float z = r * Mathf.Sin(theta);
+
+			Vector3 v = new Vector3(cx + x, -(alturaPrisma/2), cz + z);
+			vts.Add(v);
+			prisma.AddVertice(v);
+						
+			if(i < arestasPrisma-1) {
+				prisma.AddConnection(i, i+1);
+			} else {
+				prisma.AddConnection(0, i);
+			}
+		}
+		for(int i = 0; i < arestasPrisma; i++) {
+			Vector3 v = vts[i];
+			v.y += alturaPrisma;
+
+			vts.Add(v);
+			prisma.AddVertice(v);
+
+			if(i < arestasPrisma-1) {
+				prisma.AddConnection(i+arestasPrisma, i+arestasPrisma+1);
+			} else {
+				prisma.AddConnection(i+arestasPrisma, arestasPrisma);
+			}
+			prisma.AddConnection(i, i+arestasPrisma);
+		}
+		
+		return prisma;
+	}
 }

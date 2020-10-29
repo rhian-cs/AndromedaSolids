@@ -166,6 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 213944098}
   - component: {fileID: 213944099}
+  - component: {fileID: 213944100}
   m_Layer: 0
   m_Name: SolidoApresentado
   m_TagString: Untagged
@@ -204,6 +205,20 @@ MonoBehaviour:
   selectedMaterial: {fileID: 2100000, guid: d950d1e8e24699406bdf111506be5c12, type: 2}
   connectionRadius: 0.1
   fileName: cubo.json
+  arestasPrisma: 6
+  alturaPrisma: 1
+--- !u!114 &213944100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213944097}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b792cfe8cc77f985be7a6c61987821a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &411883103
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,3 +890,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1258893365}
   targetShape: {fileID: 213944098}
+  sensibilidadeZoom: 5
+  sensibilidadeMovimentoCamera: 8
+  sensibilidadeMovimentoSetas: 0.2
