@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class CameraMovement : MonoBehaviour
 	private float LimiteZoomPositivo = 0;
 	private float LimiteZoomNegativo = -13;
 
+	private bool mouseIsDraggingForMovement = false;
+	private bool mouseIsDraggingForRotation = false;
+
 
 	// Resetar a posição da câmera
 	void resetTransformations() {
@@ -45,6 +49,8 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+		bool mexendoNaUI = EventSystem.current.IsPointerOverGameObject();
+
 		// Calculando o zoom da câmera
 		float zoom = Input.GetAxisRaw("Mouse ScrollWheel");
 		if(zoom != 0) {
@@ -64,14 +70,16 @@ public class CameraMovement : MonoBehaviour
 
 		// Calculando o movimento da câmera com base no mouse
 		Vector3 movimento = Vector3.zero;
-        if(Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) { // Botão direito ou do meio
+        if( ( Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2) ) && !mexendoNaUI) { // Botão direito ou do meio
 			dragOrigin = cam.ScreenToViewportPoint(Input.mousePosition);
-		}		
-		if(Input.GetMouseButton(1) || Input.GetMouseButton(2)) { // Botão direito ou do meio
+			mouseIsDraggingForMovement = true;
+		}
+		if(( Input.GetMouseButton(1) || Input.GetMouseButton(2) ) && (mouseIsDraggingForMovement)) { // Botão direito ou do meio
 			Vector3 pos = cam.ScreenToViewportPoint(Input.mousePosition);
-			// Vector3 move = new Vector3(pos.x, pos.y, 0);
 			movimento += ( -(new Vector3(pos.x, pos.y, 0) - dragOrigin)) * sensibilidadeMovimentoCamera;
 			dragOrigin = pos;
+		} else {
+			mouseIsDraggingForMovement = false;
 		}
 
 		// Calculando o movimento da câmera com base no teclado
@@ -92,16 +100,18 @@ public class CameraMovement : MonoBehaviour
 			movimento.y -= sensibilidadeMovimentoSetas;
 		}
 		
+		// Aplicando o movimento
 		if(movimento != Vector3.zero) {
 			camOffset += movimento;
 			cam.transform.Translate(movimento);
 		}
 
 		// Calculando a movimentação da câmera
-        if(Input.GetMouseButtonDown(0)) { // Botão esquerdo
+        if(Input.GetMouseButtonDown(0) && !mexendoNaUI) { // Botão esquerdo
 			camPreviousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
+			mouseIsDraggingForRotation = true;
 		}
-		if(Input.GetMouseButton(0)) { // Botão esquerdo
+		if(Input.GetMouseButton(0) && mouseIsDraggingForRotation) { // Botão esquerdo
 			Vector3 direction = camPreviousPosition - cam.ScreenToViewportPoint(Input.mousePosition);
 
 			cam.transform.position = targetShape.position;
@@ -110,11 +120,13 @@ public class CameraMovement : MonoBehaviour
 			cam.transform.Translate(camOffset);
 
 			camPreviousPosition = cam.ScreenToViewportPoint(Input.mousePosition);
+		} else {
+			mouseIsDraggingForRotation = false;
 		}
 
 		// Resetando a câmera com <espaço>
 		if(Input.GetKey(KeyCode.Space)) {
 			resetTransformations();
-		}		
+		}
     }
 }

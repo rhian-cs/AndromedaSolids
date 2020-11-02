@@ -13,8 +13,33 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	public int arestasPrisma = 0;
 	public float alturaPrisma = 1f;
 
+	public bool rotacaoAutomatica = false;
+	public float velocidadeRotacaoAutomatica = 12f;
+
+	private List<string> labels; // Lista com os nomes de cada vértice
+	private List <string> connectionLabels; // Lista com os nomes de cada aresta
+	private List<bool> verticesDesenhados; // Lista que contém se um dado vértice já foi desenhado ou não, inicialmente false
+	private List<GameObject> connObjs;
+	private CustomShape	shape;
+
 	// Start is called before the first frame update
 	void Start() {
+		labels = new List<string>();
+		connectionLabels = new List<string>();
+		connObjs = new List<GameObject>();
+		verticesDesenhados = new List<bool>();
+
+		inicializarObjeto();
+	}
+
+	// Update is called once per frame
+	void Update() {
+		if(rotacaoAutomatica) {
+			transform.Rotate(0, velocidadeRotacaoAutomatica * Time.deltaTime, 0);
+		}
+	}
+
+	void inicializarObjeto() {
 		string jsonDir = Application.dataPath + "/Shapes/" + fileName;
 
 		if(fileName == "") {
@@ -22,24 +47,20 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		}
 
 		string jsonStr = File.ReadAllText(jsonDir);
-		CustomShape	shape;
+
 		if(arestasPrisma == 0) {
 			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
 		} else {
 			shape = gerarPrisma();
 		}
 
-		// Criando lista com os nomes de cada vértice
-		List<string> labels = new List<string>();
-		// Criando lista com os nomes de cada reta
-		List <string> connectionLabels = new List<string>();
+		gerarFormaGeometrica();
+	}
 
-		// Lista que contém se um dado vértice já foi desenhado ou não, inicialmente false
-		List<bool> verticesDesenhados = new List<bool>();
+	void gerarFormaGeometrica() {
 		for(int i = 0; i < shape.vertices.Count; i++) {
 			verticesDesenhados.Add(false);
 		}
-
 
 		// Definindo as letras automaticamente
 		for(int i = 0; i < shape.connections.Count; i++) {
@@ -54,7 +75,6 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		}
 		
 		// Efetuando as ligações
-		List<GameObject> connObjs = new List<GameObject>();
 		for(int i = 0; i < shape.connections.Count; i+=2) {
 
 			// Definindo os índices do primeiro e do segundo ponto a ser conectado a uma reta
@@ -105,17 +125,12 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	// void Update() {
-		
-	// }
-
 	CustomShape gerarPrisma() {
 		CustomShape prisma = new CustomShape("Prisma de " + arestasPrisma + " lados");
 
 		float cx = 0;
 		float cz = 0;
-		float r = 1;
+		float r = 2;
 
 		List<Vector3> vts = new List<Vector3>();
 		
