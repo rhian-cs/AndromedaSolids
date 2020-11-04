@@ -10,6 +10,10 @@ public class CustomShape {
 	public List<Vector3> vertices;
 	public List<int> connections;
 
+	public int numVertices;
+	public int numArestas;
+	public int numFaces;
+
 	public CustomShape(string name, int version=0) {
 		vertices = new List<Vector3>();
 		connections = new List<int>();

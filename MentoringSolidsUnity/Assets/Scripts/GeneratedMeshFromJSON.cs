@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using UnityEngine.UI;
+using TMPro;
 using System.IO;
 
 public class GeneratedMeshFromJSON : MonoBehaviour {
@@ -10,11 +12,15 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 	public float connectionRadius = 0.1f;
 	public string fileName = "";
-	public int arestasPrisma = 0;
-	public float alturaPrisma = 1f;
+	public int facesPrisma = 0;
+	public float alturaPrisma = 2f;
 
 	public bool rotacaoAutomatica = false;
 	public float velocidadeRotacaoAutomatica = 12f;
+
+	public TextMeshProUGUI textoVertices;
+	public TextMeshProUGUI textoArestas;
+	public TextMeshProUGUI textoFaces;
 
 	private List<string> labels; // Lista com os nomes de cada vértice
 	private List <string> connectionLabels; // Lista com os nomes de cada aresta
@@ -39,7 +45,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		}
 	}
 
-	void inicializarObjeto() {
+	public void inicializarObjeto() {
 		string jsonDir = Application.dataPath + "/Shapes/" + fileName;
 
 		if(fileName == "") {
@@ -48,7 +54,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 		string jsonStr = File.ReadAllText(jsonDir);
 
-		if(arestasPrisma == 0) {
+		if(facesPrisma == 0) {
 			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
 		} else {
 			shape = gerarPrisma();
@@ -57,14 +63,10 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		gerarFormaGeometrica();
 	}
 
-	void gerarFormaGeometrica() {
+	public void gerarFormaGeometrica() {
 		for(int i = 0; i < shape.vertices.Count; i++) {
 			verticesDesenhados.Add(false);
-		}
 
-		// Definindo as letras automaticamente
-		for(int i = 0; i < shape.connections.Count; i++) {
-			// Se ainda não tiver estourado o alfabeto
 			if(i < 26) {
 				labels.Add(((char) (65 + i)).ToString());
 			} else { // Caso contrário, defina a partir de A1..A25, B1..25, etc.
@@ -123,10 +125,15 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 			connObjs.Add(conn);
 		}
+
+		// Atualizando as informações do sólido
+		textoVertices.text = "Vértices = " + shape.numVertices;
+		textoArestas.text = "Arestas = " + shape.numArestas;
+		textoFaces.text = "Faces = " + shape.numFaces;
 	}
 
 	CustomShape gerarPrisma() {
-		CustomShape prisma = new CustomShape("Prisma de " + arestasPrisma + " lados");
+		CustomShape prisma = new CustomShape("Prisma de " + facesPrisma + " lados");
 
 		float cx = 0;
 		float cz = 0;
@@ -134,8 +141,8 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 		List<Vector3> vts = new List<Vector3>();
 		
-		for(int i = 0; i < arestasPrisma; i++) {
-			float theta = 2.0f * Mathf.PI * (((float) i) / (float) arestasPrisma);
+		for(int i = 0; i < facesPrisma; i++) {
+			float theta = 2.0f * Mathf.PI * (((float) i) / (float) facesPrisma);
 
 			float x = r * Mathf.Cos(theta);
 			float z = r * Mathf.Sin(theta);
@@ -144,25 +151,25 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			vts.Add(v);
 			prisma.AddVertice(v);
 						
-			if(i < arestasPrisma-1) {
+			if(i < facesPrisma-1) {
 				prisma.AddConnection(i, i+1);
 			} else {
 				prisma.AddConnection(0, i);
 			}
 		}
-		for(int i = 0; i < arestasPrisma; i++) {
+		for(int i = 0; i < facesPrisma; i++) {
 			Vector3 v = vts[i];
 			v.y += alturaPrisma;
 
 			vts.Add(v);
 			prisma.AddVertice(v);
 
-			if(i < arestasPrisma-1) {
-				prisma.AddConnection(i+arestasPrisma, i+arestasPrisma+1);
+			if(i < facesPrisma-1) {
+				prisma.AddConnection(i+facesPrisma, i+facesPrisma+1);
 			} else {
-				prisma.AddConnection(i+arestasPrisma, arestasPrisma);
+				prisma.AddConnection(i+facesPrisma, facesPrisma);
 			}
-			prisma.AddConnection(i, i+arestasPrisma);
+			prisma.AddConnection(i, i+facesPrisma);
 		}
 		
 		return prisma;
