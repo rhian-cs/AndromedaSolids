@@ -14,7 +14,8 @@ public class CustomShape {
 	public int numArestas;
 	public int numFaces;
 
-	public CustomShape(string name, int version=0) {
+	public CustomShape(string newName, int version=0) {
+		name = newName;
 		vertices = new List<Vector3>();
 		connections = new List<int>();
 	}

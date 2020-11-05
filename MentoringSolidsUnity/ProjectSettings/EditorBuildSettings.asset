@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ApresentacaoSolido.unity
-    guid: 356e78a88c253b99dad919cc6d5f4fb6
-  - enabled: 1
     path: Assets/Scenes/MenuPrincipal.unity
     guid: 21c1f1729860676ec9643acd939fa2aa
+  - enabled: 1
+    path: Assets/Scenes/ApresentacaoSolido.unity
+    guid: 356e78a88c253b99dad919cc6d5f4fb6
   m_configObjects: {}

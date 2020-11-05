@@ -12,12 +12,15 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 	public float connectionRadius = 0.1f;
 	public string fileName = "";
-	public int facesPrisma = 0;
+
+	public bool ativarPrisma = false;
+	public int facesPrisma = 3;
 	public float alturaPrisma = 2f;
 
 	public bool rotacaoAutomatica = false;
 	public float velocidadeRotacaoAutomatica = 12f;
 
+	public TextMeshProUGUI textoNomeShape;
 	public TextMeshProUGUI textoVertices;
 	public TextMeshProUGUI textoArestas;
 	public TextMeshProUGUI textoFaces;
@@ -26,6 +29,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	private List <string> connectionLabels; // Lista com os nomes de cada aresta
 	private List<bool> verticesDesenhados; // Lista que contém se um dado vértice já foi desenhado ou não, inicialmente false
 	private List<GameObject> connObjs;
+
 	private CustomShape	shape;
 
 	// Start is called before the first frame update
@@ -34,8 +38,6 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		connectionLabels = new List<string>();
 		connObjs = new List<GameObject>();
 		verticesDesenhados = new List<bool>();
-
-		inicializarObjeto();
 	}
 
 	// Update is called once per frame
@@ -46,6 +48,17 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	}
 
 	public void inicializarObjeto() {
+		// Deletando os objetos anteriores
+		for(int i = 0; i < connObjs.Count; i++) {
+			GameObject.Destroy(connObjs[i]);
+		}
+		connObjs.Clear();
+		labels.Clear();
+		connectionLabels.Clear();
+		verticesDesenhados.Clear();
+
+		Debug.Log("Inicializando objeto Shape");
+
 		string jsonDir = Application.dataPath + "/Shapes/" + fileName;
 
 		if(fileName == "") {
@@ -54,82 +67,108 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 		string jsonStr = File.ReadAllText(jsonDir);
 
-		if(facesPrisma == 0) {
-			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
+		Debug.Log("ativar Prisma = " + ativarPrisma);
+		if(ativarPrisma) {
+			if(facesPrisma >= 3) {
+				Debug.Log("Gerando shape do prisma.");
+				shape = gerarPrisma();
+			} else {
+				Debug.Log("shape = null");
+				shape = null;
+			}
 		} else {
-			shape = gerarPrisma();
+			Debug.Log("Criando JSON do arquivo " + fileName);
+			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
 		}
 
 		gerarFormaGeometrica();
 	}
 
 	public void gerarFormaGeometrica() {
-		for(int i = 0; i < shape.vertices.Count; i++) {
-			verticesDesenhados.Add(false);
+		Debug.Log("Gerando forma geométrica. shape == null? " + shape == null);
+		if(shape != null) {
+			Debug.Log("Ativar prisma? " + ativarPrisma);
+			Debug.Log("Vertice Count = " + shape.vertices.Count);
+			Debug.Log("Connections Count = " + shape.connections.Count);
 
-			if(i < 26) {
-				labels.Add(((char) (65 + i)).ToString());
-			} else { // Caso contrário, defina a partir de A1..A25, B1..25, etc.
-				int mod = i % 26;
-				int div = (i-mod)/26;
-				labels.Add(System.Convert.ToChar(65 + div).ToString() + mod);
+			for(int i = 0; i < shape.vertices.Count; i++) {
+				verticesDesenhados.Add(false);
+
+				Debug.Log("B");
+
+				if(i < 26) {
+					labels.Add(((char) (65 + i)).ToString());
+				} else { // Caso contrário, defina a partir de A1..A25, B1..25, etc.
+					int mod = i % 26;
+					int div = (i-mod)/26;
+					labels.Add(System.Convert.ToChar(65 + div).ToString() + mod);
+				}
 			}
-		}
-		
-		// Efetuando as ligações
-		for(int i = 0; i < shape.connections.Count; i+=2) {
-
-			// Definindo os índices do primeiro e do segundo ponto a ser conectado a uma reta
-			int a = shape.connections[i];
-			int b = shape.connections[i+1];
-
-			// Concatenando as letras dos vértices para obter o da Reta (ex. A + B vai ser a reta AB)
-			connectionLabels.Add(labels[a] + labels[b]);
-
-			// Criando uma linha que servirá de conexão de um vértice a outro, representando a reta
-			// Sua posição é um ponto médio entre os dois pontos.
-			GameObject conn = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-			conn.name = "Connection_" + labels[a] + labels[b];
-			conn.transform.parent = transform; // Definindo parentesco
-			conn.transform.localScale = new Vector3(connectionRadius, (shape.vertices[a] - shape.vertices[b]).magnitude/2, connectionRadius); // Definindo comprimento e raio
-			conn.transform.position = transform.position + (shape.vertices[a] + shape.vertices[b])/2; // Colocando na posição correta
 			
-			// Fazer com que esta linha mire para um dos pontos (com o eixo Y)
-			conn.transform.LookAt(transform.position + shape.vertices[b]);
-			conn.transform.Rotate(90, 0, 0);
+			// Efetuando as ligações
+			for(int i = 0; i < shape.connections.Count; i+=2) {
+				Debug.Log("C");
 
-			// Definindo o material como o Não Selecionado
-			conn.GetComponent<Renderer>().material = unselectedMaterial;
+				// Definindo os índices do primeiro e do segundo ponto a ser conectado a uma reta
+				int a = shape.connections[i];
+				int b = shape.connections[i+1];
 
-			// Também desenhando os vértices no espaço como esferas, mas verificando se eles ainda não foram desenhados
-			if(!verticesDesenhados[a]) {
-				GameObject vertexA = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-				vertexA.name = "Vertex_" + labels[a];
-				vertexA.transform.parent = transform;
-				vertexA.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
-				vertexA.transform.position = transform.position + shape.vertices[a];
-				vertexA.GetComponent<Renderer>().material = unselectedMaterial;
-				connObjs.Add(vertexA);
-				verticesDesenhados[a] = true;
+				// Concatenando as letras dos vértices para obter o da Reta (ex. A + B vai ser a reta AB)
+				connectionLabels.Add(labels[a] + labels[b]);
+
+				// Criando uma linha que servirá de conexão de um vértice a outro, representando a reta
+				// Sua posição é um ponto médio entre os dois pontos.
+				GameObject conn = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+				conn.name = "Connection_" + labels[a] + labels[b];
+				conn.transform.parent = transform; // Definindo parentesco
+				conn.transform.localScale = new Vector3(connectionRadius, (shape.vertices[a] - shape.vertices[b]).magnitude/2, connectionRadius); // Definindo comprimento e raio
+				conn.transform.position = transform.position + (shape.vertices[a] + shape.vertices[b])/2; // Colocando na posição correta
+				
+				// Fazer com que esta linha mire para um dos pontos (com o eixo Y)
+				conn.transform.LookAt(transform.position + shape.vertices[b]);
+				conn.transform.Rotate(90, 0, 0);
+
+				// Definindo o material como o Não Selecionado
+				conn.GetComponent<Renderer>().material = unselectedMaterial;
+
+				// Também desenhando os vértices no espaço como esferas, mas verificando se eles ainda não foram desenhados
+				if(!verticesDesenhados[a]) {
+					GameObject vertexA = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+					vertexA.name = "Vertex_" + labels[a];
+					vertexA.transform.parent = transform;
+					vertexA.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
+					vertexA.transform.position = transform.position + shape.vertices[a];
+					vertexA.GetComponent<Renderer>().material = unselectedMaterial;
+					connObjs.Add(vertexA);
+					verticesDesenhados[a] = true;
+				}
+				if(!verticesDesenhados[b]) {
+					GameObject vertexB = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+					vertexB.name = "Vertex_" + labels[b];
+					vertexB.transform.parent = transform;
+					vertexB.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
+					vertexB.transform.position = transform.position + shape.vertices[b];
+					vertexB.GetComponent<Renderer>().material = unselectedMaterial;
+					verticesDesenhados[b] = true;
+					connObjs.Add(vertexB);
+				}
+
+				connObjs.Add(conn);
 			}
-			if(!verticesDesenhados[b]) {
-				GameObject vertexB = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-				vertexB.name = "Vertex_" + labels[b];
-				vertexB.transform.parent = transform;
-				vertexB.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
-				vertexB.transform.position = transform.position + shape.vertices[b];
-				vertexB.GetComponent<Renderer>().material = unselectedMaterial;
-				verticesDesenhados[b] = true;
-				connObjs.Add(vertexB);
-			}
-
-			connObjs.Add(conn);
 		}
 
 		// Atualizando as informações do sólido
-		textoVertices.text = "Vértices = " + shape.numVertices;
-		textoArestas.text = "Arestas = " + shape.numArestas;
-		textoFaces.text = "Faces = " + shape.numFaces;
+		if(shape != null) {
+			textoNomeShape.text = shape.name;
+			textoVertices.text = "Vértices = " + shape.numVertices;
+			textoArestas.text = "Arestas = " + shape.numArestas;
+			textoFaces.text = "Faces = " + shape.numFaces;
+		} else {
+			textoNomeShape.text = "-";
+			textoVertices.text = "Vértices = 0";
+			textoArestas.text = "Arestas = 0";
+			textoFaces.text = "Faces = 0";
+		}
 	}
 
 	CustomShape gerarPrisma() {
