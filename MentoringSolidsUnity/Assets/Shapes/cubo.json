@@ -31,5 +31,9 @@
 
 		1,5,
 		2,6
-	]
+	],
+
+	"numVertices": "8",
+	"numArestas": "12",
+	"numFaces": "6"
 }

@@ -10,11 +10,15 @@ public class SolidKeyManager : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyUp(KeyCode.R)) {
-			GeneratedMeshFromJSON meshScript = GameObject.Find("SolidoApresentado").GetComponent<GeneratedMeshFromJSON>();
-			meshScript.rotacaoAutomatica = !meshScript.rotacaoAutomatica;
+			toggleRotacaoAutomatica();
 		}
         if(Input.GetKeyUp(KeyCode.Z)) {
 			hud.enabled = !hud.enabled;
 		}
     }
+
+	public void toggleRotacaoAutomatica() {
+		GeneratedMeshFromJSON meshScript = GameObject.Find("SolidoApresentado").GetComponent<GeneratedMeshFromJSON>();
+		meshScript.rotacaoAutomatica = !meshScript.rotacaoAutomatica;
+	}
 }
