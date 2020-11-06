@@ -14,6 +14,7 @@ public class CustomShape {
 	public int numArestas;
 	public int numFaces;
 
+	// Construtor que inicializa os atributos e define o nome como o do parâmetro
 	public CustomShape(string newName, int version=0) {
 		name = newName;
 		vertices = new List<Vector3>();
