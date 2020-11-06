@@ -7,6 +7,7 @@ using System.IO;
 
 public class GeneratedMeshFromJSON : MonoBehaviour {
 
+	// Material para quando o sólido estiver selecionado e não-selecionado. Padrão não-selecionado
 	public Material unselectedMaterial;
 	public Material selectedMaterial;
 
@@ -20,6 +21,8 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	public bool rotacaoAutomatica = false;
 	public float velocidadeRotacaoAutomatica = 12f;
 
+	// Elementos de UI que serão editados
+	public TextMeshProUGUI textoTituloInformacoes;
 	public TextMeshProUGUI textoNomeShape;
 	public TextMeshProUGUI textoVertices;
 	public TextMeshProUGUI textoArestas;
@@ -38,6 +41,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		connectionLabels = new List<string>();
 		connObjs = new List<GameObject>();
 		verticesDesenhados = new List<bool>();
+		textoTituloInformacoes.text = "Informações:";
 	}
 
 	// Update is called once per frame
@@ -57,27 +61,26 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		connectionLabels.Clear();
 		verticesDesenhados.Clear();
 
-		Debug.Log("Inicializando objeto Shape");
+		// Debug.Log("Inicializando objeto Shape");
 
+		// Abrindo o arquivo JSON
 		string jsonDir = Application.dataPath + "/Shapes/" + fileName;
-
 		if(fileName == "") {
 			Debug.Log("Error: fileName is empty of invalid.");
 		}
-
 		string jsonStr = File.ReadAllText(jsonDir);
 
-		Debug.Log("ativar Prisma = " + ativarPrisma);
+		// Debug.Log("ativar Prisma = " + ativarPrisma);
 		if(ativarPrisma) {
 			if(facesPrisma >= 3) {
-				Debug.Log("Gerando shape do prisma.");
+				// Debug.Log("Gerando shape do prisma.");
 				shape = gerarPrisma();
 			} else {
-				Debug.Log("shape = null");
+				// Debug.Log("shape = null");
 				shape = null;
 			}
 		} else {
-			Debug.Log("Criando JSON do arquivo " + fileName);
+			// Debug.Log("Criando JSON do arquivo " + fileName);
 			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
 		}
 
@@ -85,11 +88,11 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	}
 
 	public void gerarFormaGeometrica() {
-		Debug.Log("Gerando forma geométrica. shape == null? " + shape == null);
+		// Debug.Log("Gerando forma geométrica. shape == null? " + shape == null);
 		if(shape != null) {
-			Debug.Log("Ativar prisma? " + ativarPrisma);
-			Debug.Log("Vertice Count = " + shape.vertices.Count);
-			Debug.Log("Connections Count = " + shape.connections.Count);
+			// Debug.Log("Ativar prisma? " + ativarPrisma);
+			// Debug.Log("Vertice Count = " + shape.vertices.Count);
+			// Debug.Log("Connections Count = " + shape.connections.Count);
 
 			for(int i = 0; i < shape.vertices.Count; i++) {
 				verticesDesenhados.Add(false);
@@ -107,8 +110,6 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			
 			// Efetuando as ligações
 			for(int i = 0; i < shape.connections.Count; i+=2) {
-				Debug.Log("C");
-
 				// Definindo os índices do primeiro e do segundo ponto a ser conectado a uma reta
 				int a = shape.connections[i];
 				int b = shape.connections[i+1];
@@ -171,38 +172,43 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		}
 	}
 
+	// Função que gera um prisma automaticamente dado um número de lados
 	CustomShape gerarPrisma() {
 		CustomShape prisma = new CustomShape("Prisma de " + facesPrisma + " lados");
+		List<Vector3> vts = new List<Vector3>();
 
+		float r = 2; // Valor hardcoded mas sem problemas
 		float cx = 0;
 		float cz = 0;
-		float r = 2;
-
-		List<Vector3> vts = new List<Vector3>();
-		
+		// Criando a parte debaixo do sólido
 		for(int i = 0; i < facesPrisma; i++) {
 			float theta = 2.0f * Mathf.PI * (((float) i) / (float) facesPrisma);
 
 			float x = r * Mathf.Cos(theta);
 			float z = r * Mathf.Sin(theta);
-
+			
+			// Criando o vértice e o adicionando na lista
 			Vector3 v = new Vector3(cx + x, -(alturaPrisma/2), cz + z);
 			vts.Add(v);
 			prisma.AddVertice(v);
 						
+			// Atualizando as ligações. Se for a última, ligar à primeira
 			if(i < facesPrisma-1) {
 				prisma.AddConnection(i, i+1);
 			} else {
 				prisma.AddConnection(0, i);
 			}
 		}
+
+		// Criando a parte de cima do prisma, com base na parte debaixo
 		for(int i = 0; i < facesPrisma; i++) {
 			Vector3 v = vts[i];
-			v.y += alturaPrisma;
+			v.y += alturaPrisma; // Atualizando altura
 
 			vts.Add(v);
 			prisma.AddVertice(v);
 
+			// Atualizando as ligações
 			if(i < facesPrisma-1) {
 				prisma.AddConnection(i+facesPrisma, i+facesPrisma+1);
 			} else {
@@ -211,10 +217,15 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			prisma.AddConnection(i, i+facesPrisma);
 		}
 
+		// Definindo atributos do objeto
 		prisma.numVertices = prisma.vertices.Count;
 		prisma.numArestas = prisma.connections.Count/2;
 		prisma.numFaces = facesPrisma;
 		
 		return prisma;
+	}
+
+	public void toggleRotacaoAutomatica() {
+		rotacaoAutomatica = !rotacaoAutomatica;
 	}
 }
