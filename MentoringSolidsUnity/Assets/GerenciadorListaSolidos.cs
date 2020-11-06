@@ -62,6 +62,18 @@ public class GerenciadorListaSolidos : MonoBehaviour {
 			atualizarSolido();
 		}
 	}
+	public void aumentarLadosEntradaPrisma() {
+		facesPrisma++;
+		inputFacesPrisma.text = facesPrisma + "";
+		atualizarSolido();
+	}
+	public void reduzirLadosEntradaPrisma() {
+		if(facesPrisma > 0) {
+			facesPrisma--;
+			inputFacesPrisma.text = facesPrisma + "";
+			atualizarSolido();
+		}		
+	}
 
 	void atualizarSolido() {
 		if(indiceSolido == -1) { // Prisma
