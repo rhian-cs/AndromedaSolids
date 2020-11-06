@@ -210,6 +210,10 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			}
 			prisma.AddConnection(i, i+facesPrisma);
 		}
+
+		prisma.numVertices = prisma.vertices.Count;
+		prisma.numArestas = prisma.connections.Count/2;
+		prisma.numFaces = facesPrisma;
 		
 		return prisma;
 	}
