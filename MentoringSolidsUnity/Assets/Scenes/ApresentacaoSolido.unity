@@ -441,6 +441,7 @@ MonoBehaviour:
   ativarPrisma: 0
   facesPrisma: 0
   alturaPrisma: 2
+  raioPrisma: 1.5
   rotacaoAutomatica: 0
   velocidadeRotacaoAutomatica: 5
   textoTituloInformacoes: {fileID: 567723835}

@@ -17,6 +17,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	public bool ativarPrisma = false;
 	public int facesPrisma = 3;
 	public float alturaPrisma = 2f;
+	public float raioPrisma = 1.5f;
 
 	public bool rotacaoAutomatica = false;
 	public float velocidadeRotacaoAutomatica = 12f;
@@ -97,8 +98,6 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			for(int i = 0; i < shape.vertices.Count; i++) {
 				verticesDesenhados.Add(false);
 
-				Debug.Log("B");
-
 				if(i < 26) {
 					labels.Add(((char) (65 + i)).ToString());
 				} else { // Caso contrário, defina a partir de A1..A25, B1..25, etc.
@@ -177,15 +176,14 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		CustomShape prisma = new CustomShape("Prisma de " + facesPrisma + " lados");
 		List<Vector3> vts = new List<Vector3>();
 
-		float r = 2; // Valor hardcoded mas sem problemas
 		float cx = 0;
 		float cz = 0;
 		// Criando a parte debaixo do sólido
 		for(int i = 0; i < facesPrisma; i++) {
 			float theta = 2.0f * Mathf.PI * (((float) i) / (float) facesPrisma);
 
-			float x = r * Mathf.Cos(theta);
-			float z = r * Mathf.Sin(theta);
+			float x = raioPrisma * Mathf.Cos(theta);
+			float z = raioPrisma * Mathf.Sin(theta);
 			
 			// Criando o vértice e o adicionando na lista
 			Vector3 v = new Vector3(cx + x, -(alturaPrisma/2), cz + z);
