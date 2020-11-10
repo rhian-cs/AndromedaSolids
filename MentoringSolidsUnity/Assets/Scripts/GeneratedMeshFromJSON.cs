@@ -22,6 +22,8 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	public bool rotacaoAutomatica = false;
 	public float velocidadeRotacaoAutomatica = 12f;
 
+	public bool inicializarAutomaticamente = false;
+
 	// Elementos de UI que serão editados
 	public TextMeshProUGUI textoTituloInformacoes;
 	public TextMeshProUGUI textoNomeShape;
@@ -43,6 +45,10 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		connObjs = new List<GameObject>();
 		verticesDesenhados = new List<bool>();
 		textoTituloInformacoes.text = "Informações:";
+
+		if(inicializarAutomaticamente) {
+			inicializarObjeto();
+		}
 	}
 
 	// Update is called once per frame
@@ -66,10 +72,12 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 		// Abrindo o arquivo JSON
 		string jsonDir = Application.dataPath + "/Shapes/" + fileName;
+		string jsonStr = "";
 		if(fileName == "") {
-			Debug.Log("Error: fileName is empty of invalid.");
+			Debug.Log("Alerta: fileName é um valor vazio.");
+		} else {
+			jsonStr = File.ReadAllText(jsonDir);
 		}
-		string jsonStr = File.ReadAllText(jsonDir);
 
 		// Debug.Log("ativar Prisma = " + ativarPrisma);
 		if(ativarPrisma) {
@@ -81,8 +89,11 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 				shape = null;
 			}
 		} else {
-			// Debug.Log("Criando JSON do arquivo " + fileName);
-			shape = JsonUtility.FromJson<CustomShape>(jsonStr);
+			shape = null;
+			if(fileName != "") {
+				// Debug.Log("Criando JSON do arquivo " + fileName);
+				shape = JsonUtility.FromJson<CustomShape>(jsonStr);
+			}
 		}
 
 		gerarFormaGeometrica();
@@ -164,7 +175,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			textoArestas.text = "Arestas = " + shape.numArestas;
 			textoFaces.text = "Faces = " + shape.numFaces;
 		} else {
-			textoNomeShape.text = "-";
+			textoNomeShape.text = "";
 			textoVertices.text = "Vértices = 0";
 			textoArestas.text = "Arestas = 0";
 			textoFaces.text = "Faces = 0";
