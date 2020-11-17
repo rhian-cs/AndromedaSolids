@@ -44,7 +44,9 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		connectionLabels = new List<string>();
 		connObjs = new List<GameObject>();
 		verticesDesenhados = new List<bool>();
-		textoTituloInformacoes.text = "Informações:";
+		if(textoTituloInformacoes != null) {
+			textoTituloInformacoes.text = "Informações:";
+		}
 
 		if(inicializarAutomaticamente) {
 			inicializarObjeto();
@@ -106,6 +108,8 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 			// Debug.Log("Vertice Count = " + shape.vertices.Count);
 			// Debug.Log("Connections Count = " + shape.connections.Count);
 
+			shape.ApplyScale(transform.localScale);
+
 			for(int i = 0; i < shape.vertices.Count; i++) {
 				verticesDesenhados.Add(false);
 
@@ -132,12 +136,17 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 				GameObject conn = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 				conn.name = "Connection_" + labels[a] + labels[b];
 				conn.transform.parent = transform; // Definindo parentesco
-				conn.transform.localScale = new Vector3(connectionRadius, (shape.vertices[a] - shape.vertices[b]).magnitude/2, connectionRadius); // Definindo comprimento e raio
+				conn.transform.localScale = new Vector3(connectionRadius, ((shape.vertices[a] - shape.vertices[b]).magnitude/2), connectionRadius); // Definindo comprimento e raio
+				// conn.transform.localScale = Vector3.Scale(new Vector3(connectionRadius, ((shape.vertices[a] - shape.vertices[b]).magnitude/2), connectionRadius), transform.localScale); // Definindo comprimento e raio
+				// conn.transform.localScale = new Vector3(connectionRadius / transform.localScale.x, ((shape.vertices[a] - shape.vertices[b]).magnitude/2) / transform.localScale.y, connectionRadius / transform.localScale.z); // Definindo comprimento e raio
+				conn.transform.localScale = new Vector3(connectionRadius, ((shape.vertices[a] - shape.vertices[b]).magnitude/2) / transform.localScale.y, connectionRadius); // Definindo comprimento e raio
 				conn.transform.position = transform.position + (shape.vertices[a] + shape.vertices[b])/2; // Colocando na posição correta
 				
 				// Fazer com que esta linha mire para um dos pontos (com o eixo Y)
 				conn.transform.LookAt(transform.position + shape.vertices[b]);
 				conn.transform.Rotate(90, 0, 0);
+
+				// conn.transform.position = (conn.transform.position * transform.localScale.x) + transform.position;
 
 				// Definindo o material como o Não Selecionado
 				conn.GetComponent<Renderer>().material = unselectedMaterial;
@@ -149,6 +158,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 					vertexA.transform.parent = transform;
 					vertexA.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
 					vertexA.transform.position = transform.position + shape.vertices[a];
+					// vertexA.transform.position = transform.position + Vector3.Scale(shape.vertices[a], transform.localScale);
 					vertexA.GetComponent<Renderer>().material = unselectedMaterial;
 					connObjs.Add(vertexA);
 					verticesDesenhados[a] = true;
@@ -156,9 +166,12 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 				if(!verticesDesenhados[b]) {
 					GameObject vertexB = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 					vertexB.name = "Vertex_" + labels[b];
+
 					vertexB.transform.parent = transform;
 					vertexB.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
 					vertexB.transform.position = transform.position + shape.vertices[b];
+					// vertexB.transform.position = transform.position + Vector3.Scale(shape.vertices[b], transform.localScale);
+
 					vertexB.GetComponent<Renderer>().material = unselectedMaterial;
 					verticesDesenhados[b] = true;
 					connObjs.Add(vertexB);
@@ -170,15 +183,19 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 		// Atualizando as informações do sólido
 		if(shape != null) {
-			textoNomeShape.text = shape.name;
-			textoVertices.text = "Vértices = " + shape.numVertices;
-			textoArestas.text = "Arestas = " + shape.numArestas;
-			textoFaces.text = "Faces = " + shape.numFaces;
+			if(textoNomeShape != null) {
+				textoNomeShape.text = shape.name;
+				textoVertices.text = "Vértices = " + shape.numVertices;
+				textoArestas.text = "Arestas = " + shape.numArestas;
+				textoFaces.text = "Faces = " + shape.numFaces;
+			}
 		} else {
-			textoNomeShape.text = "";
-			textoVertices.text = "Vértices = 0";
-			textoArestas.text = "Arestas = 0";
-			textoFaces.text = "Faces = 0";
+			if(textoNomeShape != null) {
+				textoNomeShape.text = "";
+				textoVertices.text = "Vértices = 0";
+				textoArestas.text = "Arestas = 0";
+				textoFaces.text = "Faces = 0";
+			}
 		}
 	}
 
@@ -229,7 +246,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		// Definindo atributos do objeto
 		prisma.numVertices = prisma.vertices.Count;
 		prisma.numArestas = prisma.connections.Count/2;
-		prisma.numFaces = facesPrisma;
+		prisma.numFaces = facesPrisma+2;
 		
 		return prisma;
 	}
