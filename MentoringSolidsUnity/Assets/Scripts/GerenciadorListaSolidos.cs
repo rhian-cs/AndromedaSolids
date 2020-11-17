@@ -27,7 +27,7 @@ public class GerenciadorListaSolidos : MonoBehaviour {
 		// inputFacesPrisma = inputParentGO.GetComponent<TMP_InputField>();
 		meshScript = GameObject.Find("SolidoApresentado").GetComponent<GeneratedMeshFromJSON>();
 
-		atualizarSolido();
+		// atualizarSolido();
     }
 
 	// Funções de deslocamento invocadas pelas setas ao lado do nome do sólido
@@ -76,6 +76,20 @@ public class GerenciadorListaSolidos : MonoBehaviour {
 			inputFacesPrisma.text = facesPrisma + "";
 			atualizarSolido();
 		}		
+	}
+
+	public void definirSolidoPorIndice(int indice) {
+		if(indiceSolido >= -1 && indiceSolido < listaSolidos.Count) {
+			if(indice == -1) {
+				facesPrisma = 3;
+				inputFacesPrisma.text = facesPrisma + "";
+			}
+
+			indiceSolido = indice;
+			atualizarSolido();
+
+			GameObject.Find("GerenciadorDaCena").GetComponent<GerenciadorMenuSolidos>().esconderMenuDeSolidos();
+		}
 	}
 
 	// Função que atualiza o sólido e seus vértices e atributos

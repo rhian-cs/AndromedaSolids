@@ -32,4 +32,10 @@ public class CustomShape {
 		connections.Add(indiceA);
 		connections.Add(indiceB);
 	}
+
+	public void ApplyScale(Vector3 scale) {
+		for(int i = 0; i < vertices.Count; i++) {
+			vertices[i] = Vector3.Scale(vertices[i], scale);
+		}
+	}
 }
