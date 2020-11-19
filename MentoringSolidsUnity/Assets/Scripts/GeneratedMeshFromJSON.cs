@@ -73,7 +73,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 		// Debug.Log("Inicializando objeto Shape");
 
 		// Abrindo o arquivo JSON
-		string jsonDir = Application.dataPath + "/Shapes/" + fileName;
+		string jsonDir = Application.streamingAssetsPath + "/Shapes/" + fileName;
 		string jsonStr = "";
 		if(fileName == "") {
 			Debug.Log("Alerta: fileName é um valor vazio.");
