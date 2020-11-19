@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ApresentacaoSolido.unity
     guid: 356e78a88c253b99dad919cc6d5f4fb6
+  - enabled: 1
+    path: Assets/Scenes/Creditos.unity
+    guid: 7fe999e52bf9c461585226f265e6c782
   m_configObjects: {}

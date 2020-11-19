@@ -17,6 +17,11 @@ public class ControladorMenuPrincipal : MonoBehaviour
 
 	}
 
+	public void Creditos() {
+		SceneManager.LoadScene("Creditos");
+	}
+
+
 	public void Sair() {
 		Application.Quit();
 	}
