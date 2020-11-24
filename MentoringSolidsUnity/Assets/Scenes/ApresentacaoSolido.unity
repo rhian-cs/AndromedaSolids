@@ -1759,9 +1759,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Escolher outro solido
-
-'
+  m_text: "Escolher outro s\xF3lido\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2209,7 +2207,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Informa\xE7oes:"
+  m_text: "Informa\xE7\xF5es:"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3791,7 +3789,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Rota\xE7ao Automatica\n"
+  m_text: "Rota\xE7\xE3o Autom\xE1tica"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4558,7 +4556,7 @@ PrefabInstance:
     - target: {fileID: 2950419886927176117, guid: cbbe6d5f5e0fe0b57a93f3ed89945afc,
         type: 3}
       propertyPath: m_text
-      value: Piramide de Base Quadrada
+      value: "Pir\xE2mide de Base Quadrada"
       objectReference: {fileID: 0}
     - target: {fileID: 2950419886927176117, guid: cbbe6d5f5e0fe0b57a93f3ed89945afc,
         type: 3}
