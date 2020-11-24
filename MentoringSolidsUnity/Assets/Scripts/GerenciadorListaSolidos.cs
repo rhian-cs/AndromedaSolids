@@ -113,5 +113,6 @@ public class GerenciadorListaSolidos : MonoBehaviour {
 		
 		// Por fim, re-inicializamos o objeto
 		meshScript.inicializarObjeto();
+		GameObject.Find("GO_ControladorLetrasSolido").GetComponent<ControladorListaVerticesArestas>().inicializarTextos();
 	}
 }

@@ -31,9 +31,10 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	public TextMeshProUGUI textoArestas;
 	public TextMeshProUGUI textoFaces;
 
-	private List<string> labels; // Lista com os nomes de cada vértice
+	[System.NonSerialized] public List<string> labels; // Lista com os nomes de cada vértice
 	private List <string> connectionLabels; // Lista com os nomes de cada aresta
 	private List<bool> verticesDesenhados; // Lista que contém se um dado vértice já foi desenhado ou não, inicialmente false
+	[System.NonSerialized] public List<GameObject> vertexObjs;
 	private List<GameObject> connObjs;
 
 	private CustomShape	shape;
@@ -42,6 +43,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 	void Start() {
 		labels = new List<string>();
 		connectionLabels = new List<string>();
+		vertexObjs = new List<GameObject>();
 		connObjs = new List<GameObject>();
 		verticesDesenhados = new List<bool>();
 		if(textoTituloInformacoes != null) {
@@ -62,9 +64,13 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 
 	public void inicializarObjeto() {
 		// Deletando os objetos anteriores
+		for(int i = 0; i < vertexObjs.Count; i++) {
+			GameObject.Destroy(vertexObjs[i]);
+		}
 		for(int i = 0; i < connObjs.Count; i++) {
 			GameObject.Destroy(connObjs[i]);
 		}
+		vertexObjs.Clear();
 		connObjs.Clear();
 		labels.Clear();
 		connectionLabels.Clear();
@@ -121,6 +127,20 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 					labels.Add(System.Convert.ToChar(65 + div).ToString() + mod);
 				}
 			}
+
+			// Gerando os objetos de vértices
+			for(int i = 0; i < labels.Count; i++) {
+				if(!verticesDesenhados[i]) {
+					GameObject vertex = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+					vertex.name = "Vertex_" + labels[i];
+					vertex.transform.parent = transform;
+					vertex.transform.localScale = new Vector3(connectionRadius, connectionRadius, connectionRadius);
+					vertex.transform.position = transform.position + shape.vertices[i];
+					vertex.GetComponent<Renderer>().material = unselectedMaterial;
+					vertexObjs.Add(vertex);
+					verticesDesenhados[i] = true;
+				}
+			}
 			
 			// Efetuando as ligações
 			for(int i = 0; i < shape.connections.Count; i+=2) {
@@ -152,7 +172,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 				conn.GetComponent<Renderer>().material = unselectedMaterial;
 
 				// Também desenhando os vértices no espaço como esferas, mas verificando se eles ainda não foram desenhados
-				if(!verticesDesenhados[a]) {
+				/*if(!verticesDesenhados[a]) {
 					GameObject vertexA = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 					vertexA.name = "Vertex_" + labels[a];
 					vertexA.transform.parent = transform;
@@ -162,8 +182,8 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 					vertexA.GetComponent<Renderer>().material = unselectedMaterial;
 					connObjs.Add(vertexA);
 					verticesDesenhados[a] = true;
-				}
-				if(!verticesDesenhados[b]) {
+				}*/
+				/*if(!verticesDesenhados[b]) {
 					GameObject vertexB = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 					vertexB.name = "Vertex_" + labels[b];
 
@@ -175,7 +195,7 @@ public class GeneratedMeshFromJSON : MonoBehaviour {
 					vertexB.GetComponent<Renderer>().material = unselectedMaterial;
 					verticesDesenhados[b] = true;
 					connObjs.Add(vertexB);
-				}
+				}*/
 
 				connObjs.Add(conn);
 			}

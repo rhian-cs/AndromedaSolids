@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -49,7 +50,11 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-		bool mexendoNaUI = EventSystem.current.IsPointerOverGameObject();
+		bool mexendoNaUI = EventSystem.current.IsPointerOverGameObject() && EventSystem.current.currentSelectedGameObject != null;
+		if(mexendoNaUI) {
+			// Não pode ter nenhum elemento de Texto!
+			mexendoNaUI = EventSystem.current.currentSelectedGameObject.GetComponent<TextMeshProUGUI>() == null;
+		}
 
 		// Calculando o zoom da câmera
 		float zoom = Input.GetAxisRaw("Mouse ScrollWheel");

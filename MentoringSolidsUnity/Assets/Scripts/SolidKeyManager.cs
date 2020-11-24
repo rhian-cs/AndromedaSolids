@@ -5,6 +5,7 @@ using UnityEngine;
 public class SolidKeyManager : MonoBehaviour
 {
 	public Canvas hud;
+	public GameObject GO_LabelsParent;
 
 	private GeneratedMeshFromJSON meshScript;
 
@@ -20,6 +21,9 @@ public class SolidKeyManager : MonoBehaviour
 		}
         if(Input.GetKeyUp(KeyCode.Z)) {
 			hud.enabled = !hud.enabled;
+		}
+        if(Input.GetKeyUp(KeyCode.X)) {
+			GO_LabelsParent.SetActive(!GO_LabelsParent.activeSelf);
 		}
     }
 }
