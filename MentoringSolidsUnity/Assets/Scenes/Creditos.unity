@@ -121,6 +121,146 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &258729970
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 998079158}
+    m_Modifications:
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -719
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -436
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -1311.8813
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -832.24744
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650970917868510612, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+        type: 3}
+      propertyPath: m_Name
+      value: PanelLogos
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7f0c0f62449750bda9b7fe112f64cfa, type: 3}
+--- !u!224 &258729971 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7650970917868510611, guid: a7f0c0f62449750bda9b7fe112f64cfa,
+    type: 3}
+  m_PrefabInstance: {fileID: 258729970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &262953702
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +581,7 @@ RectTransform:
   - {fileID: 1973788931}
   - {fileID: 1647081495}
   - {fileID: 1999152539}
+  - {fileID: 258729971}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -566,8 +707,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 191, y: -115}
-  m_SizeDelta: {x: 446.48517, y: 124.88153}
+  m_AnchoredPosition: {x: 51.128, y: -123.4}
+  m_SizeDelta: {x: 326.2561, y: 129.82243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647081496
 MonoBehaviour:
