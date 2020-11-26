@@ -14,7 +14,7 @@ public class ControladorListaVerticesArestas : MonoBehaviour
 	private List<string> labels; // Lista com os nomes de cada vértice
 	private List<GameObject> vertexObjs;
 
-	List<GameObject> textGameObjects = new List<GameObject>();
+	public List<GameObject> textGameObjects = new List<GameObject>();
 
 	GameObject CreateText(Vector2 txtPos, string textToPrint, int fontSize = 36, string GOName = "DynamicTextTMP") {
 		// Criando GameObject vazio
@@ -68,9 +68,11 @@ public class ControladorListaVerticesArestas : MonoBehaviour
 	}
 
 	void Update() {
+		// if(textGameObjects[0].activeSelf) {
 		for(int i = 0; i < labels.Count; i++) {					
 			textGameObjects[i].GetComponent<RectTransform>().anchoredPosition = getText2DPosition(vertexObjs[i].transform.position);
 			// textGameObjects[i].GetComponent<TextMeshProUGUI>().fontSize = 36 / canvas.scaleFactor;
 		}
+		// }
 	}
 }
