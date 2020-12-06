@@ -8,6 +8,21 @@ O software foi feito para ajudar os professores do CEPOC. No caso deste grupo, o
 
 O programa serve para auxiliar alunos do ensino médio que estão estudando Geometria a visualizarem melhor os sólidos platônicos e os prismas, através de um ambiente 3D totalmente rotacionável e movimentável.
 
+## Autoria
+Feito pelos alunos:
+* Eduardo Augusto Silva
+* Gabriel Henrique Garcia
+* Marcello Almeida da Silva Júnior
+* Rhian Luis Garcia Moraes
+* Samuel Munhoz Tunes
+
+Em benefício de:
+* Prof. Frank Luiz Stela
+
+Com a orientação de:
+* Prof. João Carlos de Moraes Morselli Júnior (Boca)
+* Prof. Fabiano Costa Teixeira
+
 ## Imagens
 ### Tela de Título
 ![Imagem da Tela de Título](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/titulo.png?raw=true)
@@ -16,11 +31,17 @@ O programa serve para auxiliar alunos do ensino médio que estão estudando Geom
 
 
 ## Instalação
-O link de download do software se encontra [aqui](https://drive.google.com/drive/folders/1WnsRjlmZh2tBcbuB9ssES-8MLjC0MAw4).
+[Clique aqui para baixar o software](https://drive.google.com/drive/folders/1WnsRjlmZh2tBcbuB9ssES-8MLjC0MAw4).
 Apenas escolha seu sistema operacional (Windows ou Linux), extraia o arquivo e execute AndromedaSolids.
 
 ## Compilação do código fonte
-Se deseja compilar o software por conta, é necessário a Unity. Este projeto foi feito utilizando a Unity 2019.4.12f. [Link para o site da Unity](https://unity.com/).
+Para compilar o software é necessário utilizar a [Unity](https://unity.com/). Este projeto em específico foi feito utilizando a Unity 2019.4.12f.
+
+## Tecnologias Utilizadas
+* Unity: Estrutura toda do projeto
+	* C#: Programação
+* JSON: Representação dos Sólidos
+* Krita e Adobe Photoshop CC: Edição de Imagens
 
 ## Licença
 [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/)
