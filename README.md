@@ -24,6 +24,8 @@ Com a orientação de:
 ## Imagens
 ### Tela de Título
 ![Imagem da Tela de Título](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/titulo.png?raw=true)
+### Escolha dos Sólidos
+![Imagem da Tela de Apresentação dos Sólidos](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/escolha-solidos.png?raw=true)
 ### Tela de Apresentação dos Sólidos
 ![Imagem da Tela de Apresentação dos Sólidos](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/solidos.png?raw=true)
 
