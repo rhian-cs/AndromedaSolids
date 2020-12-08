@@ -1,5 +1,5 @@
 # Andromeda Solids
-![Logo de Andromeda Solids](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/icon-header.png)
+<!-- ![Logo de Andromeda Solids](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/icon-header.png) -->
 
 Andromeda Solids é um visualizador de sólidos feito pelos alunos de Ciência da Computação da PUC Minas Campus Poços de Caldas.
 
