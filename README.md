@@ -1,5 +1,5 @@
 # Andromeda Solids
-<!-- ![Logo de Andromeda Solids](https://github.com/rhian-cs/AndromedaSolids/blob/main/MentoringSolidsUnity/Assets/Images/Icon.png?raw=true) -->
+![Logo de Andromeda Solids](https://github.com/rhian-cs/AndromedaSolids/blob/main/readme_img/icon-header.png)
 
 Andromeda Solids é um visualizador de sólidos feito pelos alunos de Ciência da Computação da PUC Minas Campus Poços de Caldas.
 
@@ -35,7 +35,7 @@ Com a orientação de:
 Apenas escolha seu sistema operacional (Windows ou Linux), extraia o arquivo e execute AndromedaSolids.
 
 ## Compilação do código fonte
-Para compilar o software é necessário utilizar a [Unity](https://unity.com/). Este projeto em específico foi feito utilizando a Unity 2019.4.12f.
+Para compilar o software é necessário a [Unity](https://unity.com/). Este projeto em específico foi feito utilizando a Unity 2019.4.12f.
 
 ## Tecnologias Utilizadas
 * Unity: Estrutura toda do projeto
